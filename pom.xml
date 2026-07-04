@@ -32,7 +32,7 @@
         <junit-bom.version>5.10.4</junit-bom.version>
 
         <!-- Allure -->
-        <allure.version>2.25.0</allure.version>
+        <allure.version>2.44.0</allure.version>
     </properties>
 
     <!-- Dependency Management -->
