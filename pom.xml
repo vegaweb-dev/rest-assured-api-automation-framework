@@ -11,21 +11,34 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>REST Assured API Automation Framework</name>
+    <description>
+        API automation framework built with REST Assured, JUnit 5 and Maven.
+    </description>
 
+    <!-- Project properties -->
     <properties>
+        <!-- Java -->
         <java.version>21</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <rest-assured.version>5.4.0</rest-assured.version>
-        <junit-bom.version>5.10.4</junit-bom.version>
-
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
+        <!-- Project -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- REST Assured -->
+        <rest-assured.version>5.4.0</rest-assured.version>
+
+        <!-- JUnit -->
+        <junit-bom.version>5.10.4</junit-bom.version>
+
+        <!-- Allure -->
+        <allure.version>2.25.0</allure.version>
     </properties>
 
+    <!-- Dependency Management -->
     <dependencyManagement>
         <dependencies>
+            <!-- JUnit BOM -->
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
@@ -33,11 +46,22 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <!-- Allure BOM -->
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-bom</artifactId>
+                <version>${allure.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
-    <!-- Test Framework -->
+    <!-- Test Dependencies -->
     <dependencies>
+
+        <!-- REST Assured -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -45,25 +69,46 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- JUnit Jupiter Api -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
 
+        <!-- JUnit Jupiter Engine -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Allure JUnit -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Allure REST Assured -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <!-- Maven Plugins -->
     <build>
         <plugins>
+            <!-- Maven Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.15.0</version>
             </plugin>
+
+            <!-- Maven Surefire -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
