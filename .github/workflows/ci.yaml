@@ -37,13 +37,24 @@ jobs:
           ref: gh-pages
           path: previous-report
 
-      - name: Build test report
-        uses: simple-elf/allure-report-action@v1.10
+      - name: Install Allure CLI
         if: always()
-        with:
-          gh_pages: previous-report
-          allure_history: final-report
-          allure_results: target/allure-results
+        run: |
+          wget https://github.com/allure-framework/allure2/releases/download/2.44.0/allure-2.44.0.tgz
+          tar -zxvf allure-2.44.0.tgz
+          sudo mv allure-2.44.0 /opt/allure
+          sudo ln -sf /opt/allure/bin/allure /usr/local/bin/allure
+
+      - name: Verify Allure Installation
+        run: allure --version
+
+      - name: Generate Allure Report
+        if: always()
+        run: |
+          if [ -d "previous-report/history" ]; then
+            cp -r previous-report/history target/allure-results/
+          fi
+          allure generate target/allure-results --clean -o final-report
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
