@@ -40,9 +40,9 @@ jobs:
       - name: Install Allure CLI
         if: always()
         run: |
-          wget https://github.com/allure-framework/allure2/releases/download/2.44.0/allure-2.44.0.tgz
-          tar -zxvf allure-2.44.0.tgz
-          sudo mv allure-2.44.0 /opt/allure
+          wget https://github.com/allure-framework/allure2/releases/download/2.25.0/allure-2.25.0.tgz
+          tar -zxvf allure-2.25.0.tgz
+          sudo mv allure-2.25.0 /opt/allure
           sudo ln -sf /opt/allure/bin/allure /usr/local/bin/allure
 
       - name: Verify Allure Installation
