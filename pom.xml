@@ -35,7 +35,7 @@
         <allure.version>2.25.0</allure.version>
 
         <!-- AspectJ -->
-        <aspectj.version>1.9.21</aspectj.version>
+<!--        <aspectj.version>1.9.21</aspectj.version>-->
     </properties>
 
     <!-- Dependency Management -->
@@ -117,20 +117,20 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <argLine>
-                        -javaagent:"${org.aspectj:aspectjweaver:jar}"
-                    </argLine>
+<!--                    <argLine>-->
+<!--                        -javaagent:"${org.aspectj:aspectjweaver:jar}"-->
+<!--                    </argLine>-->
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                     </systemPropertyVariables>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                </dependencies>
+<!--                <dependencies>-->
+<!--                    <dependency>-->
+<!--                        <groupId>org.aspectj</groupId>-->
+<!--                        <artifactId>aspectjweaver</artifactId>-->
+<!--                        <version>${aspectj.version}</version>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
             </plugin>
         </plugins>
     </build>
