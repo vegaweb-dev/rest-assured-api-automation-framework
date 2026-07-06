@@ -26,8 +26,8 @@ jobs:
           cache: 'maven'
 
       - name: Run tests
+        id: maven_tests
         run: mvn clean test
-        continue-on-error: true
 
       - name: Load test report history
         uses: actions/checkout@v4
@@ -47,6 +47,7 @@ jobs:
 
       - name: Verify Allure Installation
         run: allure --version
+        if: always()
 
       - name: Generate Allure Report
         if: always()
@@ -63,4 +64,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: final-report
+
+      - name: Enforce Quality Gate
+        if: always() && steps.maven_tests.outcome == 'failure'
+        run: |
+          echo "::error::Quality Gate violation! The pipeline has been stopped because the 'Run tests' stage failed."
+          exit 1
 
