@@ -121,7 +121,8 @@ Beyond core code architecture, the repository contains end-to-end strategic docu
 
 ### 🚧 Next
 
-* [ ] Full CRUD suite expansion (Deep positive path checks for all 6 HTTP methods)
+* [x] Full CRUD suite expansion (Deep positive path checks for all 6 HTTP 
+  methods)
 * [ ] Negative testing & error response validations
 * [ ] Contract testing & JSON Schema validation integration
 * [ ] API virtualization with WireMock for hermetic isolation
