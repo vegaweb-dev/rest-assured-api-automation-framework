@@ -2,30 +2,24 @@ package clients;
 
 import configuration.RestAssuredConfig;
 import io.restassured.response.Response;
+import models.requests.UserCreateRequest;
+import models.requests.UserPatchRequest;
 
 import static io.restassured.RestAssured.given;
 
 public class UserClient {
     public static Response getUserById(int userId) {
-        return given(RestAssuredConfig.authenticatedRequestSpecification())
+        return given(RestAssuredConfig.publicRequestSpecification())
                 .when()
                 .get("/users/%s".formatted(userId))
                 .then()
-                .statusCode(200)
                 .extract()
                 .response();
     }
 
-    public static Response createUser() {
+    public static Response createUser(UserCreateRequest createRequestBody) {
         return given(RestAssuredConfig.authenticatedRequestSpecification())
-                .body("""
-                        {
-                        "name":"Aaaarav Sharma",
-                        "email":"cv%s@example.com",
-                        "gender":"male",
-                        "status":"active"
-                        }
-                        """.formatted(System.currentTimeMillis()))
+                .body(createRequestBody)
                 .when()
                 .post("/users")
                 .then()
@@ -33,16 +27,10 @@ public class UserClient {
                 .response();
     }
 
-    public static Response updateUser(int userId) {
+    public static Response updateUser(UserCreateRequest updateRequestBody,
+                                      int userId) {
         return given(RestAssuredConfig.authenticatedRequestSpecification())
-                .body("""
-                        {"name":"Carlos",
-                        "email":"cv%s@example.com",
-                        "gender":"male",
-                        "status":"active"
-                        }
-                        """.formatted(System.currentTimeMillis())
-                )
+                .body(updateRequestBody)
                 .when()
                 .put("/users/%s".formatted(userId))
                 .then()
@@ -50,11 +38,10 @@ public class UserClient {
                 .response();
     }
 
-    public static Response updateUserPartially(int userId) {
+    public static Response patchUser(UserPatchRequest patchRequestBody,
+                                 int userId) {
         return given(RestAssuredConfig.authenticatedRequestSpecification())
-                .body("""
-                        {"status":"inactive"}
-                        """.formatted(System.currentTimeMillis()))
+                .body(patchRequestBody)
                 .when()
                 .patch("/users/%d".formatted(userId))
                 .then()
