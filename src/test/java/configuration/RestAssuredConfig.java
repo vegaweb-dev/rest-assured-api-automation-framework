@@ -4,11 +4,9 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
-import static io.restassured.RestAssured.given;
 
 public final class RestAssuredConfig {
     public static final String BASE_URI = "https://gorest.in/public/v2";
-    public static final String TOKEN = "demo-token";
 
     private RestAssuredConfig() {
     }
@@ -20,9 +18,10 @@ public final class RestAssuredConfig {
     }
 
     public static RequestSpecification authenticatedRequestSpecification() {
+        String token = System.getenv("GOREST_TOKEN");
         return new RequestSpecBuilder()
                 .setBaseUri(BASE_URI)
-                .addHeader("Authorization", "Bearer " + TOKEN)
+                .addHeader("Authorization", "Bearer " + token)
                 .setContentType(ContentType.JSON)
                 .build();
     }
