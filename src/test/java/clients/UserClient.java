@@ -8,6 +8,15 @@ import models.requests.UserPatchRequest;
 import static io.restassured.RestAssured.given;
 
 public class UserClient {
+    public static Response getUsers(){
+       return given(RestAssuredConfig.publicRequestSpecification())
+                .when()
+                .get("/users")
+                .then()
+                .extract()
+                .response();
+    }
+
     public static Response getUserById(int userId) {
         return given(RestAssuredConfig.publicRequestSpecification())
                 .when()
