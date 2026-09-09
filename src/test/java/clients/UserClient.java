@@ -1,15 +1,21 @@
 package clients;
 
-import configuration.RestAssuredConfig;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import models.requests.UserCreateRequest;
 import models.requests.UserPatchRequest;
 
 import static io.restassured.RestAssured.given;
 
 public class UserClient {
-    public static Response getUsers(){
-       return given(RestAssuredConfig.publicRequestSpecification())
+    private final RequestSpecification requestSpecification;
+
+    public UserClient(RequestSpecification requestSpecification) {
+        this.requestSpecification = requestSpecification;
+    }
+
+    public Response getUsers() {
+        return given(requestSpecification)
                 .when()
                 .get("/users")
                 .then()
@@ -17,8 +23,8 @@ public class UserClient {
                 .response();
     }
 
-    public static Response getUserById(int userId) {
-        return given(RestAssuredConfig.publicRequestSpecification())
+    public Response getUserById(int userId) {
+        return given(requestSpecification)
                 .when()
                 .get("/users/%s".formatted(userId))
                 .then()
@@ -26,8 +32,8 @@ public class UserClient {
                 .response();
     }
 
-    public static Response createUser(UserCreateRequest createRequestBody) {
-        return given(RestAssuredConfig.authenticatedRequestSpecification())
+    public Response createUser(UserCreateRequest createRequestBody) {
+        return given(requestSpecification)
                 .body(createRequestBody)
                 .when()
                 .post("/users")
@@ -36,9 +42,9 @@ public class UserClient {
                 .response();
     }
 
-    public static Response updateUser(UserCreateRequest updateRequestBody,
-                                      int userId) {
-        return given(RestAssuredConfig.authenticatedRequestSpecification())
+    public Response updateUser(UserCreateRequest updateRequestBody,
+                               int userId) {
+        return given(requestSpecification)
                 .body(updateRequestBody)
                 .when()
                 .put("/users/%s".formatted(userId))
@@ -47,9 +53,9 @@ public class UserClient {
                 .response();
     }
 
-    public static Response patchUser(UserPatchRequest patchRequestBody,
-                                 int userId) {
-        return given(RestAssuredConfig.authenticatedRequestSpecification())
+    public Response patchUser(UserPatchRequest patchRequestBody,
+                              int userId) {
+        return given(requestSpecification)
                 .body(patchRequestBody)
                 .when()
                 .patch("/users/%d".formatted(userId))
@@ -58,8 +64,8 @@ public class UserClient {
                 .response();
     }
 
-    public static Response deleteUser(int userId) {
-        return given(RestAssuredConfig.authenticatedRequestSpecification())
+    public Response deleteUser(int userId) {
+        return given(requestSpecification)
                 .when()
                 .delete("/users/%s".formatted(userId))
                 .then()

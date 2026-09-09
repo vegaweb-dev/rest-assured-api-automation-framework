@@ -1,25 +1,23 @@
 package crud;
 
-import clients.UserClient;
-import configuration.RestAssuredConfig;
+import fixtures.UserClientFixture;
 import io.restassured.response.Response;
 import models.requests.UserCreateRequest;
 import models.requests.UserPatchRequest;
 import org.junit.jupiter.api.Test;
 import testdata.UserTestData;
 
-import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserCrudTest {
 
     @Test
     void shouldReturnUsersWhenApiIsAvailable() {
-        given(RestAssuredConfig.publicRequestSpecification())
-                .when()
-                .get("/users")
-                .then()
-                .statusCode(200);
+        Response getResponse =
+                UserClientFixture.userClientWithoutAuthentication()
+                                 .getUsers();
+        getResponse.then()
+                   .statusCode(200);
     }
 
     @Test
@@ -36,13 +34,17 @@ public class UserCrudTest {
                             .withGender(UserTestData.validGender())
                             .withStatus(UserTestData.validStatus())
                             .build();
-            Response createUserResponse = UserClient.createUser(createRequestBody);
+            Response createUserResponse =
+                    UserClientFixture.userClientWithAuthentication()
+                                     .createUser(createRequestBody);
             createUserResponse.then()
                               .statusCode(201);
             userId = createUserResponse.jsonPath()
                                        .getInt("id");
 
-            Response getUserResponse = UserClient.getUserById(userId);
+            Response getUserResponse =
+                    UserClientFixture.userClientWithoutAuthentication()
+                                     .getUserById(userId);
             getUserResponse.then()
                            .statusCode(200);
             assertEquals(
@@ -53,7 +55,8 @@ public class UserCrudTest {
         } finally {
             try {
                 if (userId != -1) {
-                    UserClient.deleteUser(userId);
+                    UserClientFixture.userClientWithAuthentication()
+                                     .deleteUser(userId);
                 }
             } catch (Exception e) {
                 System.err.println("User could not be deleted. Error: " + e);
@@ -77,7 +80,8 @@ public class UserCrudTest {
                             .build();
 
             Response createUserResponse =
-                    UserClient.createUser(createRequestBody);
+                    UserClientFixture.userClientWithAuthentication()
+                                     .createUser(createRequestBody);
             createUserResponse.then()
                               .statusCode(201);
             userId = createUserResponse.jsonPath()
@@ -90,7 +94,8 @@ public class UserCrudTest {
         } finally {
             try {
                 if (userId != -1) {
-                    UserClient.deleteUser(userId);
+                    UserClientFixture.userClientWithAuthentication()
+                                     .deleteUser(userId);
                 }
             } catch (Exception e) {
                 System.err.println("User could not be deleted. Error :" + e);
@@ -112,7 +117,8 @@ public class UserCrudTest {
                                      .withStatus(UserTestData.validStatus())
                                      .build();
             Response createUserResponse =
-                    UserClient.createUser(createRequestBody);
+                    UserClientFixture.userClientWithAuthentication()
+                                     .createUser(createRequestBody);
             createUserResponse.then()
                               .statusCode(201);
             userId = createUserResponse.jsonPath()
@@ -126,7 +132,8 @@ public class UserCrudTest {
                     .withStatus(UserTestData.validStatus())
                     .build();
             Response updateUserResponse =
-                    UserClient.updateUser(updateRequestBody, userId);
+                    UserClientFixture.userClientWithAuthentication()
+                                     .updateUser(updateRequestBody, userId);
             updateUserResponse.then()
                               .statusCode(200);
 
@@ -138,7 +145,8 @@ public class UserCrudTest {
         } finally {
             try {
                 if (userId != -1) {
-                    UserClient.deleteUser(userId);
+                    UserClientFixture.userClientWithAuthentication()
+                                     .deleteUser(userId);
                 }
             } catch (Exception e) {
                 System.err.println("User could not be removed. Error :" + e);
@@ -160,7 +168,8 @@ public class UserCrudTest {
                                      .withStatus(UserTestData.validStatus())
                                      .build();
             Response createUserResponse =
-                    UserClient.createUser(createRequestBody);
+                    UserClientFixture.userClientWithAuthentication()
+                                     .createUser(createRequestBody);
 
             createUserResponse.then()
                               .statusCode(201);
@@ -173,7 +182,9 @@ public class UserCrudTest {
                                     .build();
 
             Response updateUserPartiallyResponse =
-                    UserClient.patchUser(updatePartiallyRequestBody, userId);
+                    UserClientFixture.userClientWithAuthentication()
+                                     .patchUser(updatePartiallyRequestBody,
+                                             userId);
             updateUserPartiallyResponse.then()
                                        .statusCode(200);
             assertEquals(
@@ -185,7 +196,8 @@ public class UserCrudTest {
         } finally {
             try {
                 if (userId != -1) {
-                    UserClient.deleteUser(userId);
+                    UserClientFixture.userClientWithAuthentication()
+                                     .deleteUser(userId);
                 }
             } catch (Exception e) {
                 System.err.println("User could not be deleted. Error: " + e);
@@ -207,21 +219,24 @@ public class UserCrudTest {
                                      .withStatus(UserTestData.validStatus())
                                      .build();
             Response createUserResponse =
-                    UserClient.createUser(createRequestBody);
+                    UserClientFixture.userClientWithAuthentication()
+                                     .createUser(createRequestBody);
 
             createUserResponse.then()
                               .statusCode(201);
             userId = createUserResponse.jsonPath()
                                        .getInt("id");
 
-            Response deleteUserResponse = UserClient.deleteUser(userId);
+            Response deleteUserResponse = UserClientFixture.userClientWithAuthentication()
+                                                           .deleteUser(userId);
             deleteUserResponse.then()
                               .statusCode(204);
             userId = -1;
         } finally {
             try {
                 if (userId != -1) {
-                    UserClient.deleteUser(userId);
+                    UserClientFixture.userClientWithAuthentication()
+                                     .deleteUser(userId);
                 }
             } catch (Exception e) {
                 System.err.println("User could not be deleted. Error: " + e);

@@ -26,5 +26,12 @@ public final class RestAssuredConfig {
                 .build();
     }
 
+    public static RequestSpecification unauthenticatedRequestSpecification(){
+        return new RequestSpecBuilder()
+                .setBaseUri(BASE_URI)
+                .setContentType(ContentType.JSON)
+                .build();
+    }
+
 
 }
