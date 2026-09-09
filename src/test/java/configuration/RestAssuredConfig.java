@@ -27,5 +27,13 @@ public final class RestAssuredConfig {
                 .build();
     }
 
+    public static RequestSpecification forbiddenRequestSpecification(){
+        String token = "blocked-token";
+        return new RequestSpecBuilder()
+                .setBaseUri(BASE_URI)
+                .addHeader("Authorization", "Bearer " + token)
+                .setContentType(ContentType.JSON)
+                .build();
+    }
 
 }

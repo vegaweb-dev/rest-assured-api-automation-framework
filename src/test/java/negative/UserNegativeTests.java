@@ -56,4 +56,39 @@ public class UserNegativeTests {
             }
         }
     }
+
+    @Test
+    void shouldReturnForbiddenWhenTokenIsNotValid() {
+        int userId = -1;
+        try {
+            UserCreateRequest userCreateRequestBody =
+                    UserCreateRequest.builder()
+                                     .withName(UserTestData.validName())
+                                     .withEmail(UserTestData.validEmail())
+                                     .withGender(UserTestData.validGender())
+                                     .withStatus(UserTestData.validStatus())
+                                     .build();
+
+            Response createUserResponse =
+                    UserClientFixture.userClientWithBlockedAuthentication()
+                                     .createUser(userCreateRequestBody);
+            createUserResponse.then()
+                              .statusCode(403);
+
+            if (createUserResponse.statusCode() == 201) {
+                userId = createUserResponse.jsonPath()
+                                           .getInt("id");
+            }
+
+        } finally {
+            try {
+                if (userId != -1) {
+                    UserClientFixture.userClientWithAuthentication()
+                                     .deleteUser(userId);
+                }
+            } catch (Exception e) {
+                System.err.print("User could not be deleted. Error: " + e);
+            }
+        }
+    }
 }

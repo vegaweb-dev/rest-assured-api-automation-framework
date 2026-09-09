@@ -11,4 +11,8 @@ public class UserClientFixture {
     public static UserClient userClientWithAuthentication(){
         return new UserClient(RestAssuredConfig.authenticatedRequestSpecification());
     }
+
+    public static UserClient userClientWithBlockedAuthentication(){
+        return  new UserClient(RestAssuredConfig.forbiddenRequestSpecification());
+    }
 }
