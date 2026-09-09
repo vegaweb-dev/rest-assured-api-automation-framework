@@ -11,12 +11,6 @@ public final class RestAssuredConfig {
     private RestAssuredConfig() {
     }
 
-    public static RequestSpecification publicRequestSpecification() {
-        return new RequestSpecBuilder()
-                .setBaseUri(BASE_URI)
-                .build();
-    }
-
     public static RequestSpecification authenticatedRequestSpecification() {
         String token = System.getenv("GOREST_TOKEN");
         return new RequestSpecBuilder()
